@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-fragment xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-fragment_3_1.xsd"
+         version="3.1">
+
+    <servlet>
+        <servlet-name>RouterServlet</servlet-name>
+        <servlet-class>dps.webapplication.servlets.RouterServlet</servlet-class>
+
+        <init-param>
+            <param-name>indexPattern</param-name>
+            <param-value>^(?:/|/index|/index\.html)?$</param-value>
+        </init-param>
+        <init-param>
+            <param-name>jspPattern</param-name>
+            <param-value>^/(index|(?:pages/[a-zA-Z0-9-_/]+))$</param-value>
+        </init-param>
+        <init-param>
+            <param-name>resourcePattern</param-name>
+            <param-value>^/(?:scripts|images|styles|views|[a-zA-Z0-9-_]+\.html)(?:/.*)?$</param-value>
+        </init-param>
+        <init-param>
+            <param-name>applicationPattern</param-name>
+            <param-value>^/(?:[a-zA-Z]*)(?:/.*)?$</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>loglevel</param-name>
+            <param-value>WARNING</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>indexPath</param-name>
+            <param-value>/WEB-INF/index.jsp</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>jspPath</param-name>
+            <param-value>/WEB-INF/$.jsp</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>resourcePath</param-name>
+            <param-value>/resources</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>applicationPath</param-name>
+            <param-value>/application</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>maxAge</param-name>
+            <param-value>0</param-value>
+        </init-param>
+
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>RouterServlet</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>dps.webapplication.application.RsApplication</servlet-name>
+        <url-pattern>/application/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/resources/*</url-pattern>
+    </servlet-mapping>
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/403.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/404.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/500.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>503</error-code>
+        <location>/WEB-INF/503.jsp</location>
+    </error-page>
+
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>/WEB-INF/*</url-pattern>
+        </jsp-property-group>
+    </jsp-config>
+
+    <env-entry>
+        <env-entry-name>settingsfile</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>META-INF/application-settings.xml</env-entry-value>
+    </env-entry>
+
+</web-fragment>
