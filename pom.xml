@@ -6,7 +6,7 @@
 
     <groupId>dps.webapplication</groupId>
     <artifactId>dps.webapplication</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.13</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -25,6 +25,25 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <configuration>
+                    <localRepositoryPath>/home/ferenci84/Dokumentumok/JEE/mvnRepository</localRepositoryPath>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <configuration>
+                    <localRepositoryPath>/home/ferenci84/Dokumentumok/JEE/repo</localRepositoryPath>
+                    <file>${build.directory}/${build.finalName}.${packaging}</file>
+                    <groupId>${groupId}</groupId>
+                    <artifactId>${artifactId}</artifactId>
+                    <version>${version}</version>
+                    <pomFile>pom.xml</pomFile>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -32,7 +51,7 @@
         <dependency>
             <groupId>dps.commons</groupId>
             <artifactId>dps.commons</artifactId>
-            <version>[1.0.3,1.1.0)</version>
+            <version>1.0.4</version>
         </dependency>
         <dependency>
             <groupId>dps.authentication</groupId>

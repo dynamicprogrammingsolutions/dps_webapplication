@@ -7,6 +7,7 @@ import dps.webapplication.authentication.CurrentAuthenticationManager;
 import dps.webapplication.configuration.Settings;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.RedirectionException;
@@ -30,6 +31,9 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     CurrentAuthenticationManager authenticationManager;
 
     @Context
+    private HttpServletRequest request;
+
+    @Context
     private ResourceInfo resourceInfo;
 
     @Inject
@@ -48,6 +52,12 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             if (roles == null) return;
             if (!authenticationManager.isAuthenticated()) {
                 if (redirectAnnotation != null) {
+
+                    Object originalRequest = request.getAttribute("self");
+                    if (originalRequest != null) {
+                        request.getSession().setAttribute("originalRequest", originalRequest);
+                    }
+
                     try {
                         throw new RedirectionException(Response.Status.TEMPORARY_REDIRECT,new URI(settings.getHost()+settings.getRoot()+redirectAnnotation.value()));
                     } catch (URISyntaxException e) {

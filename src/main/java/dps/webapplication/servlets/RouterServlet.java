@@ -30,6 +30,8 @@ public class RouterServlet extends HttpServlet implements HasLogger {
     String resourcePath = "/resources";
     String applicationPath = "/application";
 
+    String encoding = null;
+
     @Inject SessionOfRequest sessionOfRequest;
     @Inject Settings settings;
 
@@ -40,6 +42,7 @@ public class RouterServlet extends HttpServlet implements HasLogger {
         String jspPatternStr = getInitParameter("jspPattern");
         String resourcePatternStr = getInitParameter("resourcePattern");
         String sitePatternStr = getInitParameter("applicationPattern");
+
 
         if (indexPatternStr == null || jspPatternStr == null || resourcePatternStr == null || sitePatternStr == null) {
             String nulls = "";
@@ -68,6 +71,9 @@ public class RouterServlet extends HttpServlet implements HasLogger {
         String applicationPathStr = getInitParameter("applicationPath");
         if (applicationPath != null) applicationPath = applicationPathStr;
 
+        String encodingStr = getInitParameter("characterEncoding");
+        if (encodingStr != null) encoding = encodingStr;
+
         String maxAge = getInitParameter("maxAge");
         if (maxAge != null) MAXAGE = Integer.valueOf(maxAge);
 
@@ -80,12 +86,14 @@ public class RouterServlet extends HttpServlet implements HasLogger {
             String absoluteRoot = settings.getHost()+settings.getRoot();
             request.setAttribute("root",settings.getRoot());
             request.setAttribute("absoluteRoot",absoluteRoot);
-            request.setAttribute("self",request.getRequestURL());
+            request.setAttribute("self",settings.getHost() + request.getPathInfo());
+            request.setAttribute("path",request.getPathInfo());
         }
     }
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (encoding != null) req.setCharacterEncoding(encoding);
         if (subService(indexPattern,-1,indexPath,req,resp,this::setRoot)) return;
         if (subService(jspPattern,1,jspPath,req,resp,this::setRoot)) return;
         if (subService(resourcePattern,0,resourcePath,req,resp,(method,request,response) -> {

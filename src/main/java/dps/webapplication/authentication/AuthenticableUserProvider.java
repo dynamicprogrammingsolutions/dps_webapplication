@@ -38,7 +38,7 @@ public class AuthenticableUserProvider implements Serializable, UserDataProvider
 
     @Override
     public Boolean checkAuthorization(AuthenticableUser authenticableUser, String s) {
-        return true;
+        return authenticableUser.isAuthorized(s);
     }
 
 }
