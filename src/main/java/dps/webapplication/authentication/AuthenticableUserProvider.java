@@ -24,6 +24,7 @@ public class AuthenticableUserProvider implements Serializable, UserDataProvider
     public AuthenticableUser getUserByCredentials(String username, String password) {
         TypedQuery<? extends AuthenticableUser> query = em.createNamedQuery("ApplicationUser.getByUsername", AuthenticableUser.class);
         query.setParameter("username",username);
+
         try {
             AuthenticableUser user = query.getSingleResult();
             if (user.checkCredentials(username,password)) {
