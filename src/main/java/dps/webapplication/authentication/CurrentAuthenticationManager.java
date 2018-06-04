@@ -57,6 +57,6 @@ public class CurrentAuthenticationManager implements AuthenticationManager {
 
     @Override
     public Boolean isAuthorized(String operation) {
-        return authenticationManager.isAuthenticated();
+        return authenticationManager.isAuthorized(operation);
     }
 }
