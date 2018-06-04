@@ -66,7 +66,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
                 }
                 throw new NotAuthorizedException(Response.status(401).build());
             }
-            if (!authenticationManager.getUser().isAuthorized(roles.value())) {
+            if (!authenticationManager.isAuthorized(roles.value())) {
                 throw new ForbiddenException();
             }
         }
