@@ -6,7 +6,7 @@
 
     <groupId>dps.webapplication</groupId>
     <artifactId>dps.webapplication</artifactId>
-    <version>1.0.13</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -51,7 +51,7 @@
         <dependency>
             <groupId>dps.commons</groupId>
             <artifactId>dps.commons</artifactId>
-            <version>1.0.4</version>
+            <version>[1.1.0,1.2.0)</version>
         </dependency>
         <dependency>
             <groupId>dps.authentication</groupId>
@@ -61,7 +61,7 @@
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>7.0</version>
+            <version>8.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

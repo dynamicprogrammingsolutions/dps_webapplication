@@ -56,6 +56,7 @@ public class Settings extends XmlConfiguration implements HasLogger {
     String host;
     String root;
     String locale;
+    String name;
 
     public String getHost() {
         return host;
@@ -91,6 +92,15 @@ public class Settings extends XmlConfiguration implements HasLogger {
     @XmlElement
     public void setLoglevels(HashMap<String, String> loglevels) {
         this.loglevels = loglevels;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @XmlElement
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
