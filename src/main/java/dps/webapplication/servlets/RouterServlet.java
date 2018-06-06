@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,6 +36,7 @@ public class RouterServlet extends HttpServlet implements HasLogger {
 
     @Inject SessionOfRequest sessionOfRequest;
     @Inject Settings settings;
+    @Inject UrlPatterns urlPatterns;
 
     @Override
     public void init() throws ServletException {
@@ -59,6 +62,11 @@ public class RouterServlet extends HttpServlet implements HasLogger {
         resourcePattern = Pattern.compile(resourcePatternStr);
         sitePattern = Pattern.compile(sitePatternStr);
 
+        urlPatterns.indexPattern = indexPattern;
+        urlPatterns.jspPattern = jspPattern;
+        urlPatterns.resourcePattern = resourcePattern;
+        urlPatterns.sitePattern = sitePattern;
+
         String indexPathStr = getInitParameter("indexPath");
         if (indexPath != null) indexPath = indexPathStr;
 
@@ -81,6 +89,15 @@ public class RouterServlet extends HttpServlet implements HasLogger {
 
     private void setRoot(String method, HttpServletRequest request, HttpServletResponse response)
     {
+
+        try {
+            URI uri = new URI(request.getRequestURL().toString());
+            String host = uri.getScheme()+"://"+uri.getHost()+(uri.getPort()>=0?(":"+uri.getPort()):"");
+            request.setAttribute("requestedHost",host);
+        } catch (URISyntaxException e) {
+
+        }
+
         sessionOfRequest.setSession(request.getSession());
         if ("GET".equals(method) || "POST".equals(method)) {
             String absoluteRoot = settings.getHost()+settings.getRoot();
@@ -88,6 +105,8 @@ public class RouterServlet extends HttpServlet implements HasLogger {
             request.setAttribute("absoluteRoot",absoluteRoot);
             request.setAttribute("self",settings.getHost() + request.getPathInfo());
             request.setAttribute("path",request.getPathInfo());
+
+
         }
     }
 

@@ -23,13 +23,13 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Named("Settings")
+/*@Named("Settings")
 @ApplicationScoped
-@Startup
+@Startup*/
 @XmlRootElement
-public class Settings extends XmlConfiguration implements HasLogger {
+public class Settings/* extends XmlConfiguration implements HasLogger*/ {
 
-    @Resource(name="settingsfile")
+    /*@Resource(name="settingsfile")
     String settingsFile;
     protected String getSettingsFile() {
         return settingsFile;
@@ -50,7 +50,7 @@ public class Settings extends XmlConfiguration implements HasLogger {
         } else {
             logInfo("No loglevel entry in settings file");
         }
-    }
+    }*/
 
     HashMap<String,String> loglevels;
     String host;

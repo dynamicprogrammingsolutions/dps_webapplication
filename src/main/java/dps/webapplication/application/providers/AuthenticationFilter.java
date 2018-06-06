@@ -59,7 +59,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
                     }
 
                     try {
-                        throw new RedirectionException(Response.Status.TEMPORARY_REDIRECT,new URI(settings.getHost()+settings.getRoot()+redirectAnnotation.value()));
+                        throw new RedirectionException(Response.Status.TEMPORARY_REDIRECT,new URI(request.getAttribute("requestedHost")+settings.getRoot()+redirectAnnotation.value()));
                     } catch (URISyntaxException e) {
                         throw new WebApplicationException("invalid redirection url");
                     }
