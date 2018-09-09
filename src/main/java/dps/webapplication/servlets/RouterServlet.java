@@ -89,24 +89,26 @@ public class RouterServlet extends HttpServlet implements HasLogger {
 
     private void setRoot(String method, HttpServletRequest request, HttpServletResponse response)
     {
-
-        try {
+        String host = settings.getHost();
+        /*try {
             URI uri = new URI(request.getRequestURL().toString());
-            String host = uri.getScheme()+"://"+uri.getHost()+(uri.getPort()>=0?(":"+uri.getPort()):"");
-            request.setAttribute("requestedHost",host);
+            host = uri.getScheme()+"://"+uri.getHost()+(uri.getPort()>=0?(":"+uri.getPort()):"");
         } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }*/
 
-        }
+        String pathInfo = request.getPathInfo();
+        if (pathInfo == null) pathInfo = "/";
+
+        request.setAttribute("requestedHost",host);
 
         sessionOfRequest.setSession(request.getSession());
         if ("GET".equals(method) || "POST".equals(method)) {
-            String absoluteRoot = settings.getHost()+settings.getRoot();
+            String absoluteRoot = host+settings.getRoot();
             request.setAttribute("root",settings.getRoot());
             request.setAttribute("absoluteRoot",absoluteRoot);
-            request.setAttribute("self",settings.getHost() + request.getPathInfo());
-            request.setAttribute("path",request.getPathInfo());
-
-
+            request.setAttribute("self",absoluteRoot + pathInfo.substring(1));
+            request.setAttribute("path",pathInfo);
         }
     }
 
@@ -121,6 +123,7 @@ public class RouterServlet extends HttpServlet implements HasLogger {
                 response.addHeader("Cache-Control","public");
             }
         })) return;
+        this.setRoot(req.getMethod(),req,resp);
         if (subService(sitePattern,0,applicationPath,req,resp,this::setRoot)) return;
         resp.sendError(404);
     }
