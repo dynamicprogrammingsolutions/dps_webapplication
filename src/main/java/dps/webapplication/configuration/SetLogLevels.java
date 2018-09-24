@@ -21,9 +21,9 @@ public class SetLogLevels implements HasLogger {
 
     @PostConstruct
     void init() {
-        if (settings.loglevels != null) {
+        if (settings.getLoglevels() != null) {
             Loggers loggers = Loggers.getInstance();
-            for (Map.Entry<String, String> entry : settings.loglevels.entrySet()) {
+            for (Map.Entry<String, String> entry : settings.getLoglevels().entrySet()) {
                 if (entry.getKey() == null) {
                     throw new RuntimeException("invalid loglevel entry: " + entry);
                 }
